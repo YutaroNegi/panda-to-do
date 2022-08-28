@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { toastSucess, toastError, toastWarning } from './Toaster'
+import { useNavigate } from "react-router-dom";
+import { isEmail } from './Utilities'
 
 interface Credentials {
     email: string | null,
@@ -10,6 +12,8 @@ interface Credentials {
 }
 
 function Login(){
+    let navigate = useNavigate();
+
     const [loading, setLoading] = useState<boolean>(false)
     const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
 
@@ -18,16 +22,13 @@ function Login(){
         
         credentials[key as keyof Credentials] = value
         setCredentials(credentials)
-        // console.log(credentials)
     }
 
     function login(){
-        if(!credentials.email && !credentials.password){
-            return toastWarning('Please fill all the fields!')
-        }
+        if(!credentials.email || !credentials.password) return toastWarning('Please fill all the fields!')
+        if (!isEmail(credentials.email)) return toastWarning('Invalid e-mail!')
 
         try {
-            console.log(credentials)
             setLoading(true)
             // fetch
 
@@ -46,7 +47,7 @@ function Login(){
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="email" label="e-mail" variant="outlined" />
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="password" label="password" variant="outlined" />
             <LoadingButton onClick={login} name="email" loading={loading} variant="contained">Login</LoadingButton>
-            <LoadingButton name="password" loading={loading} variant="contained">Create Account</LoadingButton>
+            <LoadingButton onClick={()=>{navigate('/register')}} name="password" loading={loading} variant="contained">Register</LoadingButton>
         </Box>
     )
 }
