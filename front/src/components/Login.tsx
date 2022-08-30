@@ -5,6 +5,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { toastSucess, toastError, toastWarning } from './Toaster'
 import { useNavigate } from "react-router-dom";
 import { isEmail } from './Utilities'
+import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import { setUser } from '../redux/userSlice'
 
 interface Credentials {
     email: string | null,
@@ -14,12 +16,13 @@ interface Credentials {
 function Login(){
     let navigate = useNavigate();
 
+    const user = useAppSelector(state => state.user)
+    const dispatch = useAppDispatch()
+
     const [loading, setLoading] = useState<boolean>(false)
     const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
 
     function handleInputChange(key: string, value: string){
-        console.log(key);
-        
         credentials[key as keyof Credentials] = value
         setCredentials(credentials)
     }
@@ -32,6 +35,15 @@ function Login(){
             setLoading(true)
             // fetch
 
+            const data = {
+                userId: 1,
+                firstName: 'Yutaro',
+                lastName: 'Negi',
+                email: 'souza_yutaro@hotmail.com',
+                password: '1234',
+            };
+              
+            dispatch(setUser(data))
             toastSucess('Successuully loged in!')
             setLoading(false)
         } catch (error) {
