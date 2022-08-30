@@ -46,6 +46,7 @@ function Login(){
             dispatch(setUser(data))
             toastSucess('Successuully loged in!')
             setLoading(false)
+            navigate('/home')
         } catch (error) {
             console.log('erro logging in!')
             console.log(error)

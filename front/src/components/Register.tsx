@@ -52,6 +52,7 @@ function Register(){
             dispatch(setUser(data))
             toastSucess('Success!')
             setLoading(false)
+            navigate('/home')
         } catch (error) {
             console.log('erro logging in!')
             console.log(error)
