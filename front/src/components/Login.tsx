@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { isEmail } from './Utilities'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { setUser } from '../redux/userSlice'
+import { setList } from '../redux/listSlice'
 
 interface Credentials {
     email: string | null,
@@ -42,8 +43,27 @@ function Login(){
                 email: 'souza_yutaro@hotmail.com',
                 password: '1234',
             };
+
+            const list = {
+                listId: 1,
+                userId: data.userId,
+                listName: 'minhas compras',
+                listItems: ['Arroz', 'agua', 'bolacha', 'sal']
+            }
+
+            const list2 = {
+                listId: 2,
+                userId: data.userId,
+                listName: 'hoje',
+                listItems: ['correr', 'beber', 'exercitar']
+            }
+
+            const listArray = {
+                listArray: [list, list2]
+            }
               
             dispatch(setUser(data))
+            dispatch(setList(listArray))
             toastSucess('Successuully loged in!')
             setLoading(false)
             navigate('/home')

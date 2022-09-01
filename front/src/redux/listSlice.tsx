@@ -1,24 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../redux/store";
+
+interface ListState {
+  listId: number | null,
+  userId: number | null,
+  listName: string | null,
+  listItems: Array<string>
+}
+
+interface ListArray {
+  listArray: Array<ListState>
+}
+
+const initialState: ListArray = {
+  listArray: []
+};
 
 export const listSlice = createSlice({
-  name: 'list',
-  initialState: {
-    value: 0
-  },
+  name: "list",
+  initialState,
   reducers: {
-    increment: state => {
-      state.value += 1
+    setList: (state, action: PayloadAction<ListArray>) => {
+      state.listArray = action.payload.listArray
     },
-    decrement: state => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    }
-  }
-})
+  },
+});
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = listSlice.actions
+export const { setList } = listSlice.actions;
 
-export default listSlice.reducer
+export const selectList = (state: RootState) => state;
+
+export default listSlice.reducer;
