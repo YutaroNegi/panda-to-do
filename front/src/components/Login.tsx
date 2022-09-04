@@ -28,42 +28,49 @@ function Login(){
         setCredentials(credentials)
     }
 
-    function login(){
+    async function login(){
         if(!credentials.email || !credentials.password) return toastWarning('Please fill all the fields!')
         if (!isEmail(credentials.email)) return toastWarning('Invalid e-mail!')
 
         try {
             setLoading(true)
-            // fetch
 
-            const data = {
-                userId: 1,
-                firstName: 'Yutaro',
-                lastName: 'Negi',
-                email: 'souza_yutaro@hotmail.com',
-                password: '1234',
-            };
-
-            const list = {
-                listId: 1,
-                userId: data.userId,
-                listName: 'minhas compras',
-                listItems: ['Arroz', 'agua', 'bolacha', 'sal']
+            const options =  {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: credentials.email, password: credentials.password}),
             }
 
-            const list2 = {
-                listId: 2,
-                userId: data.userId,
-                listName: 'hoje',
-                listItems: ['correr', 'beber', 'exercitar']
-            }
+            console.log('vamos tentar');
+            
+            let response : any = await fetch('/api/login', options);
+            let data : any = await response.json()
+            console.log('data!!')
+            console.log(data)
 
-            const listArray = {
-                listArray: [list, list2]
-            }
+            // const data = {
+            //     userId: 1,
+            //     firstName: 'Yutaro',
+            //     lastName: 'Negi',
+            //     email: 'souza_yutaro@hotmail.com',
+            //     password: '1234',
+            // };
+
+            // const list = {
+            //     listId: 1,
+            //     userId: data.userId,
+            //     listName: 'minhas compras',
+            //     listItems: ['Arroz', 'agua', 'bolacha', 'sal']
+            // }
+
+            // const listArray = {
+            //     listArray: [list, list2]
+            // }
               
             dispatch(setUser(data))
-            dispatch(setList(listArray))
+            dispatch(setList({listArray: data.lists}))
             toastSucess('Successuully loged in!')
             setLoading(false)
             navigate('/home')

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function Home(){
     const lists = useAppSelector(state => state.lists.listArray)
+    console.log(lists)
     let navigate = useNavigate();
 
     function openList(listId : number | null){
