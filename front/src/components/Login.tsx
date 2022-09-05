@@ -42,32 +42,11 @@ function Login(){
                 },
                 body: JSON.stringify({email: credentials.email, password: credentials.password}),
             }
-
-            console.log('vamos tentar');
             
-            let response : any = await fetch('/api/login', options);
-            let data : any = await response.json()
-            console.log('data!!')
-            console.log(data)
+            const response : any = await fetch('/api/login', options);
+            const data : any = await response.json()
 
-            // const data = {
-            //     userId: 1,
-            //     firstName: 'Yutaro',
-            //     lastName: 'Negi',
-            //     email: 'souza_yutaro@hotmail.com',
-            //     password: '1234',
-            // };
-
-            // const list = {
-            //     listId: 1,
-            //     userId: data.userId,
-            //     listName: 'minhas compras',
-            //     listItems: ['Arroz', 'agua', 'bolacha', 'sal']
-            // }
-
-            // const listArray = {
-            //     listArray: [list, list2]
-            // }
+            if(!data.userId) throw ('incorrect email or password')
               
             dispatch(setUser(data))
             dispatch(setList({listArray: data.lists}))

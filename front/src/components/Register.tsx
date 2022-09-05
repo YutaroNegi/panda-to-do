@@ -32,16 +32,28 @@ function Register(){
         setCredentials(credentials)
     }
 
-    function register(){       
+    async function register(){       
         if(hasNullProp(credentials)) return toastWarning('Please fill all the fields!')
 
         if (!isEmail(credentials.email)) return toastWarning('Invalid e-mail!')
 
         try {
             setLoading(true)
-            // fetch
+
+            const options =  {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: credentials.email, password: credentials.password}),
+            }
             
-            const data = {
+            const response : any = await fetch('/api/register', options);
+            const data : any = await response.json()
+
+            if(!data.userId) throw ('incorrect email or password')
+            
+            const data_env = {
                 userId: 1,
                 firstName: 'Yutaro',
                 lastName: 'Negi',
