@@ -64,6 +64,7 @@ var PandaDb = {
                         _a.sent();
                         console.log('Table: PandaListItem sync');
                         console.log('EVERYTHING SYNCED!!!');
+                        console.log("Server running on port: ".concat(process.env.PORT));
                         return [3 /*break*/, 6];
                     case 5:
                         error_1 = _a.sent();
