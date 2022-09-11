@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Header/>
       <Routes>
         <Route path="/" element={<Login/>}/>
@@ -18,7 +19,6 @@ function App() {
         <Route path="/home" element={<Home/>}/>
         <Route path="/list/:listId" element={<OpenList/>}/>
       </Routes>
-      <ToastContainer />
     </BrowserRouter>
   );
 }

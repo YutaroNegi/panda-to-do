@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -28,9 +29,10 @@ function Login(){
         setCredentials(credentials)
     }
 
-    async function login(){
-        if(!credentials.email || !credentials.password) return toastWarning('Please fill all the fields!')
-        if (!isEmail(credentials.email)) return toastWarning('Invalid e-mail!')
+    async function login(email : string | null, password : string | null){
+        console.log(email, password)
+        if(!email || !password) return toastWarning('Please fill all the fields!')
+        if (!isEmail(email)) return toastWarning('Invalid e-mail!')
 
         try {
             setLoading(true)
@@ -40,7 +42,7 @@ function Login(){
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email: credentials.email, password: credentials.password}),
+                body: JSON.stringify({email: email, password: password}),
             }
             
             const response : any = await fetch('/api/login', options);
@@ -50,7 +52,7 @@ function Login(){
               
             dispatch(setUser(data))
             dispatch(setList({listArray: data.lists}))
-            toastSucess('Successuully loged in!')
+            toastSucess('Successfully loged in!')
             setLoading(false)
             navigate('/home')
         } catch (error) {
@@ -65,8 +67,8 @@ function Login(){
         <Box sx={{display: 'flex', flexDirection: 'column', width: '20em', height: '20em', margin: '0 auto 2em auto', justifyContent: 'space-evenly'}}>
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="email" label="e-mail" variant="outlined" />
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="password" label="password" variant="outlined" />
-            <LoadingButton onClick={login} name="email" loading={loading} variant="contained">Login</LoadingButton>
-            <LoadingButton onClick={()=>{navigate('/register')}} name="password" loading={loading} variant="contained">Register</LoadingButton>
+            <LoadingButton onClick={()=>{login(credentials.email, credentials.password)}} name="loginBtn" loading={loading} variant="contained">Login</LoadingButton>
+            <LoadingButton onClick={()=>{navigate('/register')}} name="resistenBtn" loading={loading} variant="contained">Register</LoadingButton>
         </Box>
     )
 }
