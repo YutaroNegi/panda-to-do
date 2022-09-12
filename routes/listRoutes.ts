@@ -62,7 +62,12 @@ listRouter.post('/api/new_list', async function (req: Request, res: Response) {
         console.log('lists created!');
         console.log(newList)
        
-        res.send(newList)
+        res.send({
+            listId: newList.listId,
+            listName: newList.listName,
+            userId: newList.userId,
+            listItems: []
+        })
     } catch (error) {
         console.log('error to create list!');
         console.log(error);

@@ -38,6 +38,8 @@ function OpenList() {
   const lists = useAppSelector((state) => state.lists.listArray);
   const listId: number = Number(params.listId);
   const selectedList = lists.filter((list) => list.listId === listId);
+  console.log(lists)
+  console.log(selectedList)
 
   const [list, setList] = useState<ListState>(selectedList[0]);
 

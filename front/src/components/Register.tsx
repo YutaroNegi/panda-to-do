@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -26,8 +26,6 @@ function Register(){
     const [credentials, setCredentials] = useState<Credentials>({firstName: null, lastName: null, email: null, password: null, confirmPassword: null})
 
     function handleInputChange(key: string, value: string){
-        console.log(key);
-        
         credentials[key as keyof Credentials] = value
         setCredentials(credentials)
     }
@@ -37,6 +35,8 @@ function Register(){
 
         if (!isEmail(credentials.email)) return toastWarning('Invalid e-mail!')
 
+        if (credentials.password !== credentials.confirmPassword) return toastWarning('Passwords does not match!')
+
         try {
             setLoading(true)
 
@@ -45,21 +45,13 @@ function Register(){
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email: credentials.email, password: credentials.password}),
+                body: JSON.stringify({firstName: credentials.firstName, lastName: credentials.lastName, email: credentials.email, password: credentials.password}),
             }
             
             const response : any = await fetch('/api/register', options);
             const data : any = await response.json()
 
             if(!data.userId) throw ('incorrect email or password')
-            
-            const data_env = {
-                userId: 1,
-                firstName: 'Yutaro',
-                lastName: 'Negi',
-                email: 'souza_yutaro@hotmail.com',
-                password: '1234',
-            };
               
             dispatch(setUser(data))
             toastSucess('Success!')
@@ -75,7 +67,7 @@ function Register(){
     
     return(
         <Box sx={{display: 'flex', flexDirection: 'column', width: '20em', height: '35em', margin: '0 auto 2em auto', justifyContent: 'space-evenly'}}>
-            <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="firstName" label="First tName" variant="outlined" />
+            <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="firstName" label="First Name" variant="outlined" />
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="lastName" label="Last Name" variant="outlined" />
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="email" label="e-mail" variant="outlined" />
             <TextField onChange={(e)=>{handleInputChange(e.target.name, e.target.value)}} name="password" type='password' label="Password" variant="outlined" />

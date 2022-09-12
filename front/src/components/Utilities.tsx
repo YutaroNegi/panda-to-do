@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 export function isEmail(email : string | null) {
     let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(!email) return false

@@ -131,7 +131,12 @@ listRouter.post('/api/new_list', function (req, res) {
                     newList = _a.sent();
                     console.log('lists created!');
                     console.log(newList);
-                    res.send(newList);
+                    res.send({
+                        listId: newList.listId,
+                        listName: newList.listName,
+                        userId: newList.userId,
+                        listItems: []
+                    });
                     return [3 /*break*/, 4];
                 case 3:
                     error_3 = _a.sent();

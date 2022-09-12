@@ -30,7 +30,6 @@ function Login(){
     }
 
     async function login(email : string | null, password : string | null){
-        console.log(email, password)
         if(!email || !password) return toastWarning('Please fill all the fields!')
         if (!isEmail(email)) return toastWarning('Invalid e-mail!')
 
